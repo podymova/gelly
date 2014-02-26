@@ -1,0 +1,467 @@
+Index: Yii/phamlp/demo/components/views/mainMenu.haml
+===================================================================
+--- Yii/phamlp/demo/components/views/mainMenu.haml	(revision 121)
++++ Yii/phamlp/demo/components/views/mainMenu.haml	(working copy)
+@@ -1,18 +0,0 @@
+--# Haml version of the Yii mainMenu Widget view
+--#
+-  Copy this file to application.components.views
+-  Enable the Haml view renderer in your config file by configuring it as
+-  an application component named "viewRenderer" in the application configuration:
+-  array(
+-    'components'=>array(
+-      ......
+-      'viewRenderer'=>array(
+-        'class'=>'HamlViewRenderer',
+-        .... options ....
+-      ),
+-    ),
+-  )
+-  A good option is 'ugly'=>false to get nicely formatted XHTML
+-%ul
+-  - foreach ($items as $item)
+-    %li= CHtml::link($item['label'],$item['url'], $item['active'] ? array('class' => 'active') : array())
+\ No newline at end of file
+Index: Yii/phamlp/demo/views/layouts/column2.haml
+===================================================================
+--- Yii/phamlp/demo/views/layouts/column2.haml	(revision 0)
++++ Yii/phamlp/demo/views/layouts/column2.haml	(revision 0)
+@@ -0,0 +1,21 @@
++-# Haml version of the Yii 2 Column Layout
++-#
++  Please refer to readme for more information
++- $this->beginContent('//layouts/main');
++.container
++  .span-19
++    #content
++      = $content
++  .span-5.last
++    #sidebar
++      :php
++        $this->beginWidget('zii.widgets.CPortlet', array(
++          'title'=>'Operations',
++        ));
++        $this->widget('zii.widgets.CMenu', array(
++          'items'=>$this->menu,
++          'htmlOptions'=>array('class'=>'operations'),
++        ));
++        $this->endWidget();
++    / sidebar
++- $this->endContent();
+Index: Yii/phamlp/demo/views/layouts/main.haml
+===================================================================
+--- Yii/phamlp/demo/views/layouts/main.haml	(revision 121)
++++ Yii/phamlp/demo/views/layouts/main.haml	(working copy)
+@@ -1,49 +1,45 @@
+--# Haml version of the Yii main layout
++-# Haml version of the Yii Main Layout
+ -#
+-  Copy this file to application.views.layouts
+-  Enable the Haml view renderer in your config file by configuring it as
+-  an application component named "viewRenderer" in the application configuration:
+-  array(
+-    'components'=>array(
+-      ......
+-      'viewRenderer'=>array(
+-        'class'=>'HamlViewRenderer',
+-        .... options ....
+-      ),
+-    ),
+-  )
+-  A good option is 'ugly'=>false to get nicely formatted XHTML
++  Please refer to readme for more information
+ !!!
+ %html(xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en")
+   %head
+     %meta(http-equiv="Content-Type" content="text/html; charset=utf-8")
+     %meta(name="language" content="en")
+-    %link(rel="stylesheet" type="text/css" href="#(Yii::app()->request->baseUrl)/css/main.css")
+-    %link(rel="stylesheet" type="text/css" href="#(Yii::app()->request->baseUrl)/css/form.css")
++    / blueprint CSS framework
++    %link(rel="stylesheet" type="text/css" href="#{Yii::app()->request->baseUrl}/css/screen.css" media="screen, projection")
++    %link(rel="stylesheet" type="text/css" href="#{Yii::app()->request->baseUrl}/css/print.css" media="print")
++    /[if lt IE 8]
++      %link(rel="stylesheet" type="text/css" href="#{Yii::app()->request->baseUrl}/css/ie.css" media="screen, projection")
++    %link(rel="stylesheet" type="text/css" href="#{Yii::app()->request->baseUrl}/css/main.css")
++    %link(rel="stylesheet" type="text/css" href="#{Yii::app()->request->baseUrl}/css/form.css")
+     %title= $this->pageTitle
+   %body
+-    #page
++    .container#page
+       #header
+         #logo= CHtml::encode(Yii::app()->name)
+-        #mainmenu
+-          :php
+-            $this->widget('application.components.MainMenu',array(
+-              'items'=>array(
+-                array('label'=>'Home', 'url'=>array('/site/index')),
+-                array('label'=>'Contact', 'url'=>array('/site/contact')),
+-                array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
+-                array('label'=>'Logout', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
+-              ),
+-            ));
+-        / mainmenu
+       / header
+-      #content
+-        = $content
+-      / content
++      #mainmenu
++        :php
++          $this->widget('zii.widgets.CMenu',array(
++            'items'=>array(
++              array('label'=>'Home', 'url'=>array('/site/index')),
++              array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
++              array('label'=>'Contact', 'url'=>array('/site/contact')),
++              array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
++              array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
++            ),
++          ));
++      / mainmenu
++      :php
++        $this->widget('zii.widgets.CBreadcrumbs', array(
++        'links'=>$this->breadcrumbs,
++        ));
++      = $content
+       #footer
+-        Copyright &copy; 2009 by My Company
++        Copyright &copy; #{date('Y')} by My Company.
+         %br
+-        All Rights Reserved
++        All Rights Reserved.
+         %br
+         = Yii::powered()
+       / footer
+Index: Yii/phamlp/demo/views/layouts/column1.haml
+===================================================================
+--- Yii/phamlp/demo/views/layouts/column1.haml	(revision 0)
++++ Yii/phamlp/demo/views/layouts/column1.haml	(revision 0)
+@@ -0,0 +1,8 @@
++-# Haml version of the Yii 1 Column Layout
++-#
++  Please refer to readme for more information
++- $this->beginContent('//layouts/main');
++.container
++  #content
++    = $content
++- $this->endContent();
+Index: Yii/phamlp/demo/views/site/pages/about.haml
+===================================================================
+--- Yii/phamlp/demo/views/site/pages/about.haml	(revision 0)
++++ Yii/phamlp/demo/views/site/pages/about.haml	(revision 0)
+@@ -0,0 +1,9 @@
++:php
++  $this->pageTitle=Yii::app()->name . ' - About';
++  $this->breadcrumbs=array(
++    'About',
++  );
++%h1 About
++%p
++  This is a "static" page. You may change the content of this page by updating 
++  the file <tt>#{__FILE__}</tt>.
+Index: Yii/phamlp/demo/views/site/index.haml
+===================================================================
+--- Yii/phamlp/demo/views/site/index.haml	(revision 121)
++++ Yii/phamlp/demo/views/site/index.haml	(working copy)
+@@ -1,80 +1,18 @@
+ -# Haml version of the Yii Index Page
+ -#
+-  Copy this file to application.views.site
+-  Enable the Haml view renderer in your config file by configuring it as
+-  an application component named "viewRenderer" in the application configuration:
+-  array(
+-    'components'=>array(
+-      ......
+-      'viewRenderer'=>array(
+-        'class'=>'HamlViewRenderer',
+-        .... options ....
+-      ),
+-    ),
+-  )
+-  A good option is 'ugly'=>false to get nicely formatted XHTML
++  Please refer to readme for more information
+ - $this->pageTitle=Yii::app()->name
+ %h1
+-  Welcome, #(Yii::app()->user->name)!
++  Welcome to <i>#{CHtml::encode(Yii::app()->name)}</i>
+ %p
+-  This is the homepage of
+-    %em= Yii::app()->name
+-  . You may modify the following files to customize the content of this page:
+-%dl
+-  %dt= Yii::app()->controllerPath . DIRECTORY_SEPARATOR . 'SiteController.php'
+-  %dd
+-    This file contains the
+-    %tt SiteController
+-    class which is the default application controller. Its default
+-    %tt index
+-    action renders the content of the following two files:
+-    %dl
+-      %dt= __FILE__
+-      %dd This is the view file that contains the body content of this page.
+-      %dt= Yii::app()->layoutPath . DIRECTORY_SEPARATOR . 'main.php'
+-      %dd
+-        This is the layout file that contains common presentation (such as header,
+-        footer)  shared by all view files.
+-%h3 What's Next
+-%ul
+-  %li
+-    Implement new actions in
+-    %tt SiteController,
+-    and create corresponding views under #(Yii::app()->viewPath . DIRECTORY_SEPARATOR . 'site')
+-  %li
+-    Create new controllers and actions manually or using the
+-    %tt yiic
+-    tool.
+-  %li  If your Web application should be driven by database, do the following:
+-    %ul
+-      %li
+-        Set up a database connection by configuring the
+-        %code db
+-        component in the application configuration
+-        %tt= Yii::app()->basePath . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR .'main.php'
+-      %li
+-        Create model classes under the directory
+-        %tt= Yii::app()->basePath . DIRECTORY_SEPARATOR . 'models'
+-      %li
+-        Implement CRUD operations for each model. For example, for the
+-        %tt Post
+-        model class, you would create a
+-        %tt PostController
+-        class together with
+-        %tt create,
+-        %tt read,
+-        %tt update
+-        and
+-        %tt delete
+-        actions.
+-    Note that the
+-      %tt yiic
+-      tool can automate the task of creating model classes and CRUD operations.
++  Congratulations! You have successfully created your Yii application.
+ %p
+-  If you have problems in accomplishing any of the above tasks, please read
+-  %a(href="http://www.yiiframework.com/doc/")
+-    Yii documentation
+-  or visit
+-  %a(href="http://www.yiiframework.com/forum/")
+-    Yii forum
+-  for help.
+\ No newline at end of file
++  You may change the content of this page by modifying the following two files:
++%ul
++  %li View file: <tt>#{__FILE__}</tt>
++  %li Layout file: <tt>#{$this->getLayoutFile('main')}</tt>
++:markdown
++  For more details on how to further develop this application, please read
++  the [documentation](http://www.yiiframework.com/doc/).
++  Feel free to ask in the [forum](http://www.yiiframework.com/forum/),
++  should you have any questions.
+\ No newline at end of file
+Index: Yii/phamlp/demo/views/site/login.haml
+===================================================================
+--- Yii/phamlp/demo/views/site/login.haml	(revision 121)
++++ Yii/phamlp/demo/views/site/login.haml	(working copy)
+@@ -1,39 +1,43 @@
+ -# Haml version of the Yii Login Page
+ -#
+-  Copy this file to application.views.site
+-  Enable the Haml view renderer in your config file by configuring it as
+-  an application component named "viewRenderer" in the application configuration:
+-  array(
+-    'components'=>array(
+-      ......
+-      'viewRenderer'=>array(
+-        'class'=>'HamlViewRenderer',
+-        .... options ....
+-      ),
+-    ),
+-  )
+-  A good option is 'ugly'=>false to get nicely formatted XHTML
+-- $this->pageTitle=Yii::app()->name . ' - Login'
++  Please refer to readme for more information
++:php
++  $this->pageTitle=Yii::app()->name . ' - Login';
++  $this->breadcrumbs=array(
++    'Login',
++  );
+ %h1 Login
+-.yiiForm
+-  = CHtml::beginForm()
+-  = CHtml::errorSummary($form)
+-  .simple
+-    = CHtml::activeLabel($form,'username')
+-    = CHtml::activeTextField($form,'username')
+-  .simple
+-    = CHtml::activeLabel($form,'password')
+-    = CHtml::activePasswordField($form,'password')
++
++%p Please fill out the following form with your login credentials:
++.form
++  :php
++    $form=$this->beginWidget('CActiveForm', array(
++      'id'=>'login-form',
++      'enableAjaxValidation'=>true,
++    ))
++    
++  %p.note Fields with <span class="required">*</span> are required.
++  
++  .row
++    = $form->labelEx($model,'username')
++    = $form->textField($model,'username')
++    = $form->error($model,'username')
++    
++  .row
++    = $form->labelEx($model,'password')
++    = $form->textField($model,'password')
++    = $form->error($model,'password')
+     %p.hint
+-      Hint: You may login with
+-      %tt demo/demo
+-      or
+-      %tt admin/admin
+-      .
+-  .action
+-    = CHtml::activeCheckBox($form,'rememberMe')
+-    = CHtml::activeLabel($form,'rememberMe')
+-    %br
+-    = CHtml::submitButton('Login')
+-= CHtml::endForm()
+-/ yiiForm
+\ No newline at end of file
++      Hint: You may login with <tt>demo/demo</tt> or <tt>admin/admin</tt>.
++  
++  .row.rememberMe
++    = $form->checkBox($model,'rememberMe')
++    = $form->label($model, 'rememberMe')
++    = $form->error($model, 'rememberMe')
++  
++  .row.buttons
++    = Chtml::submitButton('Login')
++  
++  :php  
++    $this->endWidget()
++/ form
+\ No newline at end of file
+Index: Yii/phamlp/demo/views/site/error.haml
+===================================================================
+--- Yii/phamlp/demo/views/site/error.haml	(revision 0)
++++ Yii/phamlp/demo/views/site/error.haml	(revision 0)
+@@ -0,0 +1,15 @@
++-# Haml version of the Yii Error Page
++-#
++  Please refer to readme for more information
++:php
++  $this->pageTitle=Yii::app()->name . ' - Error';
++  $this->breadcrumbs=array(
++    'Error',
++  );
++
++%h2
++  Error #{$code}
++
++.error
++  = CHtml::encode($message)
++  
+Index: Yii/phamlp/demo/views/site/contact.haml
+===================================================================
+--- Yii/phamlp/demo/views/site/contact.haml	(revision 121)
++++ Yii/phamlp/demo/views/site/contact.haml	(working copy)
+@@ -1,51 +1,41 @@
+ -# Haml version of the Yii Contact Page
+ -#
+-  Copy this file to application.views.site
+-  Enable the Haml view renderer in your config file by configuring it as
+-  an application component named "viewRenderer" in the application configuration:
+-  array(
+-    'components'=>array(
+-      ......
+-      'viewRenderer'=>array(
+-        'class'=>'HamlViewRenderer',
+-        .... options ....
+-      ),
+-    ),
+-  )
+-  A good option is 'ugly'=>false to get nicely formatted XHTML
++  Please refer to readme for more information
+ - $this->pageTitle=Yii::app()->name . ' - Contact Us'
++- $this->breadcrumbs=array('Contact')
+ %h1 Contact Us
+ - if(Yii::app()->user->hasFlash('contact'))
+-  .confirmation
+-    = Yii::app()->user->getFlash('contact')
++  .flash-success
++    = Yii::app()->user->getFlash('contact');
+ - else
+-  %p
+-    If you have business inquiries or other questions, please fill out the
+-    following form to contact us. Thank you.
+-.yiiForm
+-  = CHtml::beginForm()
+-  = CHtml::errorSummary($contact)
+-  .simple
+-    = CHtml::activeLabel($contact,'name')
+-    = CHtml::activeTextField($contact,'name')
+-  .simple
+-    = CHtml::activeLabel($contact,'email')
+-    = CHtml::activeTextField($contact,'email')
+-  .simple
+-    = CHtml::activeLabel($contact,'subject')
+-    = CHtml::activeTextField($contact,'subject',array('size'=>60,'maxlength'=>128))
+-  .simple
+-    = CHtml::activeLabel($contact,'body')
+-    = CHtml::activeTextArea($contact,'body',array('rows'=>6, 'cols'=>50))
++%p
++  If you have business inquiries or other questions, please fill out the
++  following form to contact us. Thank you.
++.form
++  - $form=$this->beginWidget('CActiveForm')
++  %p.note Fields with <span class='required'>*</span> are required
++  = CHtml::errorSummary($model)
++  .row
++    = $form->labelEx($model,'name')
++    = $form->textField($model,'name')
++  .row
++    = $form->labelEx($model,'email')
++    = $form->textField($model,'email')
++  .row
++    = $form->labelEx($model,'subject')
++    = $form->textField($model,'subject',array('size'=>60,'maxlength'=>128))
++  .row
++    = $form->labelEx($model,'body')
++    = $form->textArea($model,'body',array('rows'=>6, 'cols'=>50))
+   - if(extension_loaded('gd'))
+-    .simple
+-      = CHtml::activeLabel($contact,'verifyCode')
+-      - $this->widget('CCaptcha')
+-      = CHtml::activeTextField($contact,'verifyCode')
+-	  %p.hint Please enter the letters as they are shown in the image above.
+-	    %br
+-	    Letters are not case-sensitive.
+-  .action
++    .row
++      = $form->labelEx($model,'verifyCode')
++      %div
++        - $this->widget('CCaptcha')
++        = $form->textField($model,'verifyCode')
++      .hint Please enter the letters as they are shown in the image above.
++        %br
++        Letters are not case-sensitive.
++  .row.buttons
+     = CHtml::submitButton('Submit')
+-  = CHtml::endForm();
+-  / yiiForm
+\ No newline at end of file
++  - $this->endWidget()
+Index: Yii/phamlp/demo/readme
+===================================================================
+--- Yii/phamlp/demo/readme	(revision 121)
++++ Yii/phamlp/demo/readme	(working copy)
+@@ -9,7 +9,7 @@
+       ......
+       'viewRenderer'=>array(
+         'class'=>'HamlViewRenderer',
+-        .... options ....
++        'filterPathAlias'=>'ext.phamlp.filters',
+       ),
+     ),
+   )

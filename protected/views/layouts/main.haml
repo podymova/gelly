@@ -1,0 +1,66 @@
+!!!
+%html
+  %head
+    %title= 'Geely Motors | Geely Motors' 
+    %meta(http-equiv = "Content-Type" content = "text/html; charset=utf-8")
+    %meta{:name => "language", :content => "en"}
+    %link{:href => "favicon.png", :rel => "shortcut icon", :type => "image/x-icon"}
+    %link{:href => "#{Yii::app()->request->baseUrl}/css/layout.css", :rel => "stylesheet"}
+  %body
+    .header
+      .logo
+        %a{:href => CHtml::encode(Yii::app()->name), :title => "Главная"}
+          %img{:alt => "Главная", :src => "images/fusion_starter_logo.png"}
+      .navigation
+        %a{:href => "/"}
+          %img.logo_kit{:src => "images/logo_kitavto.png"}
+      .menu
+        %a.left{:href => "page_mk08.html", :title => "MK 08"}
+          %b MK 08
+        %a.left{:href => "page_mk.html", :title => "MK"}
+          %b MK
+        %a.left{:href => "page_mkcross.html", :title => "MK Cross"} MK Cross
+        %a.left{:href => "page_emgrand.html", :title => "Emgrand"} Emgrand
+        %a.left{:href => "page_emgrand_hb.html", :title => "Emgrand хэтчбек"} Emgrand хэтчбек
+        %a.left{:href => "page_emgrand_x7.html", :title => "Emgrand X7"} Emgrand X7
+        %a.left{:href => "page_spec.html", :title => "Акции"} Акции
+        %a.left{:href => "page_contacts2.html", :title => "Контакты"} Контакты
+        %a.left{:href => "page_contacts2feedback.html", :title => "Обратная связь"} Обратная связь
+    .content{:style => "overflow: visible"}
+      .auto
+        %img{:src => "images/h7--main-page.jpg"}
+      %a{:href => "http://www.kit-avto.ru/geely/"}
+        %img{:alt => "sc7", :src => "images/small-banner2.jpg"}
+    .footer
+      %p.left Copyright 2012 ©
+
+
+    -#.container#page
+      /#header
+      /  #logo= CHtml::encode(Yii::app()->name)
+      / header
+      /#mainmenu
+      /  :php
+      /    $this->widget('zii.widgets.CMenu',array(
+      /      'items'=>array(
+      /        array('label'=>'Home', 'url'=>array('/site/index')),
+      /        array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
+      /        array('label'=>'Contact', 'url'=>array('/site/contact')),
+      /        array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
+      /        array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
+      /      ),
+      /    ));
+      / mainmenu
+      /:php
+      /  $this->widget('zii.widgets.CBreadcrumbs', array(
+      /  'links'=>$this->breadcrumbs,
+      /  ));
+      /= $content
+      /#footer
+      /  Copyright &copy; #{date('Y')} by My Company.
+      /  %br
+      /  All Rights Reserved.
+      /  %br
+      /  = Yii::powered()
+      / footer
+    / page

@@ -1,0 +1,61 @@
+Index: Yii/phamlp/Sass.php
+===================================================================
+--- Yii/phamlp/Sass.php	(revision 121)
++++ Yii/phamlp/Sass.php	(working copy)
+@@ -14,7 +14,7 @@
+  */
+ 
+  // Do NOT use Yii::import. Doing so causes conflict with HamlSassFilter
+-require_once(Yii::getPathOfAlias('ext.phamlp.vendors.phamlp.sass').DIRECTORY_SEPARATOR.'SassParser.php');
++require_once(Yii::getPathOfAlias('application.vendors.phamlp.sass').DIRECTORY_SEPARATOR.'SassParser.php');
+ 
+ /**
+  * Sass class
+Index: Yii/phamlp/Haml.php
+===================================================================
+--- Yii/phamlp/Haml.php	(revision 121)
++++ Yii/phamlp/Haml.php	(working copy)
+@@ -175,7 +175,7 @@
+ 			}
+ 		} // foreach
+ 
+-		Yii::import('ext.phamlp.vendors.phamlp.haml.HamlParser');
++		Yii::import('application.vendors.phamlp.haml.HamlParser');
+ 	  $this->haml = new HamlParser($options);
+ 	}
+ 
+@@ -188,7 +188,7 @@
+ 	protected function generateViewFile($sourceFile, $viewFile) {
+ 		if (substr($sourceFile, strlen($this->fileExtension) * -1) === $this->fileExtension) {
+ 			if (empty($this->haml)) $this->_init();
+- 			$data = $this->haml->parse($sourceFile);
++			$data = $this->haml->parse($sourceFile);
+ 		}
+ 		else {
+ 			$data = file_get_contents($sourceFile);
+Index: Yii/phamlp/filters/HamlMarkdownFilter.php
+===================================================================
+--- Yii/phamlp/filters/HamlMarkdownFilter.php	(revision 121)
++++ Yii/phamlp/filters/HamlMarkdownFilter.php	(working copy)
+@@ -15,7 +15,7 @@
+  * @subpackage	Yii.filters
+  */
+  
+-Yii::import('ext.phamlp.vendors.phamlp.haml.filters._HamlMarkdownFilter');
++Yii::import('application.vendors.phamlp.haml.filters._HamlMarkdownFilter');
+ 
+ /**
+  * Markdown Filter for {@link http://haml-lang.com/ Haml} class.
+Index: Yii/phamlp/filters/HamlTextileFilter.php
+===================================================================
+--- Yii/phamlp/filters/HamlTextileFilter.php	(revision 121)
++++ Yii/phamlp/filters/HamlTextileFilter.php	(working copy)
+@@ -22,7 +22,7 @@
+ define('VENDOR_PATH', 'application.vendors.textile.classTextile');
+ 
+ // The base filter class
+-Yii::import('ext.phamlp.vendors.phamlp.haml.filters._HamlTextileFilter');
++Yii::import('application.vendors.phamlp.haml.filters._HamlTextileFilter');
+ 
+ /**
+  * Textile Filter for {@link http://haml-lang.com/ Haml} class.
